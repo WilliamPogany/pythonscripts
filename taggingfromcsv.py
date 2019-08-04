@@ -80,9 +80,5 @@ for instance_id in instance_list:
         y = y + 1
 
 
-code.amazon.com/reviews
-code.amazon.com create package at bottom.
-code.amazon.com/packages/
-
 1.Check CSV format
 2. Display a sample of the changes before executing.
