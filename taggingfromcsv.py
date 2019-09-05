@@ -18,12 +18,29 @@ i-06dd7584077005c74,	<value>,	<value>,	<value>
 In addition, this script will check to see if the Name tag on AMS intances
 does not get changed. Finally, it will display a sample of the changes to ensure
 that the csv and the values provided are what is intended.
+
+Required IAM Permissions:
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeInstances",
+                "ec2:CreateTags"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
 """
 
 
 import csv
 import boto3
 from botocore.exceptions import ClientError
+import argparse
 import pdb
 
 
@@ -36,7 +53,7 @@ def ec2_client():
 def open_csv(path):
     """Open csv and store into csv_container variable"""
     csv_container = []
-    with open(path, 'rt') as f:
+    with open(path, 'rt', encoding = "ISO-8859-1") as f:
         reader = csv.reader(f)
         for row in reader:
             csv_container.append(row)
@@ -159,9 +176,7 @@ def create_tags(tag_keys, instance_list, csv_container):
                         )
             y = y + 1
 
-
 def main():
-    #path = '/Users/pog/Desktop/csvproject/TESTTAG3.csv'
     path = input("Enter the absolute path of the csv file:")
     ec2_session = ec2_client()
     csv_container = open_csv(path)
@@ -171,4 +186,6 @@ def main():
     display_sample_changes(tag_keys, csv_container)
     create_tags(tag_keys, instance_list, csv_container)
 
-main()
+if __name__ == "__main__":
+    # execute only if run as a script
+    main()
